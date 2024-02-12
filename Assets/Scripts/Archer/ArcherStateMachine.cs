@@ -16,7 +16,9 @@ namespace Archer
 
         private void Start()
         {
-            StartCoroutine(new IdleState().EnterState(this));
+            StartCoroutine(_stateFactory
+                .CreateState(StateFactory.State.Idle)
+                .EnterState(this));
         }
 
         public void SetNextState(IArcherState state)

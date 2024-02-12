@@ -14,10 +14,9 @@ namespace Archer.States
                 case State.Run:
                     return new RunState();
                 case State.Action:
-                    _hasTarget = !_hasTarget;
-                    return _hasTarget ? new ShootState() : new RunState();
+                    return SwapTarget() ? new ShootState() : new RunState();
                 case State.Rotate:
-                    return Random.value >= 0.5 ? new RotateRightState() : new RotateLeftState();
+                    return FiftyFifty() ? new RotateRightState() : new RotateLeftState();
                 default:
                     return new IdleState();
             }
@@ -29,6 +28,17 @@ namespace Archer.States
             Action,
             Run,
             Rotate
+        }
+
+        private static bool FiftyFifty()
+        {
+            return Random.value >= 0.5;
+        }
+
+        private bool SwapTarget()
+        {
+            _hasTarget = !_hasTarget;
+            return _hasTarget;
         }
     }
 }

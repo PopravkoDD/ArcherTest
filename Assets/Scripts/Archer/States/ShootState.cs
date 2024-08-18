@@ -11,9 +11,11 @@ namespace Archer.States
         public IEnumerator EnterState(ArcherStateMachine archer)
         {
             archer.Animator.SetTrigger(AimAnimationName);
+            archer.EnableAiming();
+            archer.SetShootTarget(ShootingHelper.GetShootTarget(archer.transform, archer.ShootingPoint));
             yield return new WaitForSeconds(archer.ArcherInfo.AimAnimationDuration);
             archer.Animator.SetTrigger(ShootAnimationName);
-            archer.SetShootTarget(ShootingHelper.GetShootTarget(archer.transform, archer.ShootingPoint));
+            archer.DisableAiming();
             GameObject.Instantiate(archer.ArrowPrefab, archer.ShootingPoint.position, archer.ShootingPoint.rotation)
                 .Fly(archer.ShootTarget);
             yield return new WaitForSeconds(archer.ArcherInfo.ShootAnimationDuration);

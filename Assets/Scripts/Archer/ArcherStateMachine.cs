@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Archer.States;
 using Arrow;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Archer
         [SerializeField] private Transform _shootingPoint;
         [SerializeField] private ArrowController _arrowPrefab;
         [SerializeField] private Transform _target;
-        [SerializeField] private MultiAimConstraint aimingRig;
+        [SerializeField] private Rig rig;
         private readonly StateFactory _stateFactory = new StateFactory();
 
         private void Start()
@@ -56,11 +57,11 @@ namespace Archer
             while (currentTime <= time)
             {
                 currentTime += Time.deltaTime;
-                aimingRig.weight = Mathf.Lerp(aimingRig.weight, finalValue, 
-                    Mathf.InverseLerp(0, time, currentTime));
+                rig.weight = Mathf.Lerp(rig.weight, finalValue, Mathf.InverseLerp(0, time, currentTime));
                 yield return null;
             }
-            aimingRig.weight = finalValue;
+            Debug.Log(currentTime);
+            rig.weight = finalValue;
             yield return null;
         }
 

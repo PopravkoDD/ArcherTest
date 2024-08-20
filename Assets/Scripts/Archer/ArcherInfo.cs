@@ -10,9 +10,6 @@ namespace Archer
         
         [SerializeField] private float _maxIdleTime;
         public float MaxIdleTime => _maxIdleTime;
-        
-        [SerializeField] private float _aimingTime;
-        public float AimingTime => _aimingTime;
 
         [SerializeField] private AnimationCurve _turnRightAnimationCurve;
         public AnimationCurve TurnRightAnimationCurve => _turnRightAnimationCurve;

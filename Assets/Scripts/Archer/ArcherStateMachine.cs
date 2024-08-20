@@ -12,7 +12,6 @@ namespace Archer
         [SerializeField] private Animator _animator;
         [SerializeField] private ArcherInfo _archerInfo;
         [SerializeField] private Vector3 _runTarget;
-      //  [SerializeField] private Vector3 _shootTarget;
         [SerializeField] private Transform _shootingPoint;
         [SerializeField] private ArrowController _arrowPrefab;
         [SerializeField] private Transform _target;
@@ -38,30 +37,29 @@ namespace Archer
 
         public void SetShootTarget(Vector3 target)
         {
-            this._target.position = target;
-            //_shootTarget = target;
+            _target.position = target;
         }
 
         public void EnableAiming()
         {
-            StartCoroutine(ChangeAnimRiggingWeight(1));
+            StartCoroutine(ChangeAnimRiggingWeight(1, _archerInfo.ShootAnimationDuration));
         }
 
         public void DisableAiming()
         {
-            StartCoroutine(ChangeAnimRiggingWeight(0));
+            StartCoroutine(ChangeAnimRiggingWeight(0, _archerInfo.AimAnimationDuration));
         }
 
-        private IEnumerator ChangeAnimRiggingWeight(float finalValue)
+        private IEnumerator ChangeAnimRiggingWeight(float finalValue, float time)
         {
             float currentTime = 0f;
-            while (currentTime <= _archerInfo.AimingTime)
+            while (currentTime <= time)
             {
                 currentTime += Time.deltaTime;
-                aimingRig.weight = Mathf.Lerp(aimingRig.weight, finalValue, currentTime);
+                aimingRig.weight = Mathf.Lerp(aimingRig.weight, finalValue, 
+                    Mathf.InverseLerp(0, time, currentTime));
                 yield return null;
             }
-
             aimingRig.weight = finalValue;
             yield return null;
         }
